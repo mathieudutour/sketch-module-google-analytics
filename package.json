@@ -1,0 +1,25 @@
+{
+  "name": "sketch-module-google-analytics",
+  "version": "0.1.0",
+  "description": "A sketch module to help tracking events with Google Analytics",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mathieudutour/sketch-module-google-analytics.git"
+  },
+  "keywords": [
+    "sketch",
+    "module",
+    "google",
+    "analytics"
+  ],
+  "author": "Mathieu Dutour <mathieu@dutour.me> (http://mathieu.dutour.me/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mathieudutour/sketch-module-google-analytics/issues"
+  },
+  "homepage": "https://github.com/mathieudutour/sketch-module-google-analytics#readme"
+}
