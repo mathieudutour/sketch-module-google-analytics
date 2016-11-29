@@ -14,7 +14,7 @@ function jsonToQueryString(json) {
 module.exports = function (context, trackingId, hitType, props) {
 	var payload = {
     v: 1,
-		tid: apiKey,
+		tid: trackingId,
 		ds: 'Sketch%20' + NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString"),
 		cid: uuid,
     t: hitType,
