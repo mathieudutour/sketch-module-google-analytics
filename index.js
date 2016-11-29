@@ -1,3 +1,4 @@
+var kUUIDKey = 'google.analytics.uuid'
 var uuid = NSUserDefaults.standardUserDefaults().objectForKey(kUUIDKey)
 if (!uuid) {
   uuid = NSUUID.UUID().UUIDString()
