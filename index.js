@@ -18,8 +18,8 @@ module.exports = function (context, trackingId, hitType, props) {
 		ds: 'Sketch%20' + NSBundle.mainBundle().objectForInfoDictionaryKey("CFBundleShortVersionString"),
 		cid: uuid,
     t: hitType,
-    an: context.plugin.name,
-    aid: context.plugin.identifier,
+    an: context.plugin.name(),
+    aid: context.plugin.identifier(),
     av: context.plugin.version()
 	}
 	if (props) {
