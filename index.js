@@ -20,7 +20,8 @@ module.exports = function (context, trackingId, hitType, props) {
     t: hitType,
     an: context.plugin.name(),
     aid: context.plugin.identifier(),
-    av: context.plugin.version()
+    av: context.plugin.version(),
+    dp: '/'
   }
   if (props) {
     Object.keys(props).forEach(function (key) {
