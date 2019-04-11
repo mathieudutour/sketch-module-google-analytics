@@ -1,10 +1,11 @@
 var Settings = require("sketch/settings");
 
 var kUUIDKey = "google.analytics.uuid";
-var uuid = Settings.globalSettingForKey(kUUIDKey);
+var uuid = null
+var uuid = NSUserDefaults.standardUserDefaults().objectForKey(kUUIDKey);
 if (!uuid) {
   uuid = NSUUID.UUID().UUIDString();
-  Settings.setGlobalSettingForKey(uuid, kUUIDKey);
+  NSUserDefaults.standardUserDefaults().setObject_forKey(uuid, kUUIDKey)
 }
 
 var variant = MSApplicationMetadata.metadata().variant;
@@ -21,10 +22,32 @@ function jsonToQueryString(json) {
     .join("&");
 }
 
-module.exports = function(trackingId, hitType, props) {
+function makeRequest(url, options) {
+  if (!url) {
+    return
+  }
+
+  if (options && options.makeRequest) {
+    return options.makeRequest(url)
+  }
+  if (options && options.debug) {
+    var request = NSURLRequest.requestWithURL(url)
+    var responsePtr = MOPointer.alloc().init();
+    var errorPtr = MOPointer.alloc().init();
+
+    var data = NSURLConnection.sendSynchronousRequest_returningResponse_error(request, responsePtr, errorPtr)
+    return data ? NSString.alloc().initWithData_encoding(data, NSUTF8StringEncoding) : errorPtr.value()
+  }
+
+  NSURLSession.sharedSession()
+    .dataTaskWithURL(url)
+    .resume();
+}
+
+module.exports = function(trackingId, hitType, props, options) {
   if (!Settings.globalSettingForKey("analyticsEnabled")) {
     // the user didn't enable sharing analytics
-    return;
+    return 'the user didn\'t enable sharing analytics';
   }
 
   var payload = {
@@ -48,15 +71,11 @@ module.exports = function(trackingId, hitType, props) {
   }
 
   var url = NSURL.URLWithString(
-    "https://www.google-analytics.com/collect?" +
+    "https://www.google-analytics.com/" + (options && options.debug ? "debug/" : "") + "collect?" +
       jsonToQueryString(payload) +
       "&z=" +
       NSUUID.UUID().UUIDString()
   );
 
-  if (url) {
-    NSURLSession.sharedSession()
-      .dataTaskWithURL(url)
-      .resume();
-  }
+  return makeRequest(url, options)
 };
